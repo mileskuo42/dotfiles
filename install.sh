@@ -33,6 +33,25 @@ ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 [ -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ] || \
     git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" --depth=1
 
+echo "==> 安装 Helix 编辑器..."
+mkdir -p ~/.local/bin
+if ! command -v hx &>/dev/null; then
+    ARCH=$(uname -m)
+    case "$ARCH" in
+        x86_64)  HX_ARCH="x86_64-linux" ;;
+        aarch64) HX_ARCH="aarch64-linux" ;;
+        arm64)   HX_ARCH="aarch64-macos" ;;
+        *)       echo "  跳过 Helix：不支持的架构 $ARCH" ;;
+    esac
+    if [ -n "$HX_ARCH" ]; then
+        curl -sL "https://github.com/helix-editor/helix/releases/latest/download/helix-${HX_ARCH}.tar.xz" | tar xJ -C /tmp
+        mv /tmp/helix-*/hx ~/.local/bin/
+        echo "    hx 已安装到 ~/.local/bin/hx"
+    fi
+else
+    echo "    hx 已存在，跳过"
+fi
+
 echo ""
 echo "✓ 完成！重新打开终端生效。"
 echo "  提示：把 API key 等敏感变量写入 ~/.env.local"
