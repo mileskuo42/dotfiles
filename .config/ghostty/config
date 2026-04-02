@@ -1,10 +1,11 @@
-font-family = "JetBrains Mono"
-font-size = 13
-font-feature = calt
-font-feature = liga
+font-family = "Maple Mono NF CN"
+font-size = 20
 
 theme = catppuccin-mocha
-background-opacity = 0.95
+background-opacity = 1.0
+background = 1d2021
+foreground = e8e0cc
+
 cursor-style = bar
 cursor-style-blink = false
 
