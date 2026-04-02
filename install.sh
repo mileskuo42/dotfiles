@@ -6,7 +6,7 @@ echo "==> 创建目录..."
 mkdir -p ~/.config
 
 echo "==> 软链接配置文件..."
-configs=(kitty starship nvim yazi)
+configs=(kitty starship yazi)
 for cfg in "${configs[@]}"; do
     rm -rf ~/.config/$cfg
     ln -sf "$DOTFILES/.config/$cfg" ~/.config/$cfg
