@@ -6,6 +6,8 @@ background-blur-radius = 20
 background = 1d2021
 foreground = e8e0cc
 
+split-divider-color = 4E8D9C
+
 cursor-style = bar
 cursor-style-blink = false
 
