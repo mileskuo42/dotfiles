@@ -11,7 +11,7 @@ image previews, fuzzy search, and deep shell integration.
 brew install yazi ffmpegthumbnailer unar jq poppler fd ripgrep fzf zoxide imagemagick
 ```
 
-For full image preview support in Kitty, no extra setup is needed — Yazi detects it automatically.
+For full image preview support in Kitty/Ghostty, no extra setup is needed — Yazi detects it automatically.
 
 ---
 
@@ -40,7 +40,8 @@ Without `y`, your shell stays in the original directory when you close Yazi.
 └─────────────┴───────────────────────┴──────────────────────┘
 ```
 
-The three-pane layout (ratio `1:3:4` in your config) shows parent, current, and preview.
+The three-pane layout (ratio `0:1:7` in your config) hides the parent pane and
+gives maximum space to the preview.
 
 ---
 
@@ -66,8 +67,8 @@ The three-pane layout (ratio `1:3:4` in your config) shows parent, current, and 
 
 | Key | Action |
 |-----|--------|
-| `l` or `Enter` | Open with default app |
-| `o` | Open with a picker (choose app) |
+| `l` or `Enter` | Open with Helix (your configured default editor) |
+| `o` | Open with a picker — choose which app to use |
 | `O` | Open with a picker, stay in Yazi |
 
 ---
@@ -94,12 +95,17 @@ The three-pane layout (ratio `1:3:4` in your config) shows parent, current, and 
 | `p` | Paste |
 | `P` | Paste and overwrite |
 | `d` | Move to trash |
-| `D` | Permanently delete |
+| `D` | Permanently delete (use with care) |
 | `a` | Create new file (end with `/` for directory) |
 | `r` | Rename current file |
-| `R` | Bulk rename selected files |
+| `R` | Bulk rename selected files in your editor |
 
-**Tip:** To copy files across directories — select files with `Space`, press `y`, navigate to destination, press `p`.
+**Tip — copy files across directories:**
+Select files with `Space`, press `y`, navigate to destination, press `p`.
+
+**Tip — bulk rename:**
+Select multiple files with `Space`, press `R`. Helix opens with all filenames listed.
+Edit the names, save and quit — Yazi renames everything at once.
 
 ---
 
@@ -107,14 +113,14 @@ The three-pane layout (ratio `1:3:4` in your config) shows parent, current, and 
 
 | Key | Action |
 |-----|--------|
-| `/` | Filter files in current directory (live) |
-| `f` | Find file by name (jumps to match) |
+| `/` | Filter files in current directory (live, by name) |
+| `f` | Find file by name and jump to first match |
 | `F` | Find previous match |
-| `s` | Search file content with `fd` |
-| `S` | Search with `rg` (ripgrep, content search) |
-| `Ctrl+s` | Cancel search |
+| `s` | Search files by name using `fd` (recursive) |
+| `S` | Search file content using `ripgrep` |
+| `Ctrl+s` | Cancel ongoing search |
 
-**Tip:** After a `s`/`S` search, results open in a picker — use arrow keys and `Enter` to jump.
+**Tip:** After `S` (ripgrep search), results open in a picker — use arrow keys and `Enter` to jump to any match.
 
 ---
 
@@ -136,32 +142,35 @@ Press `o` to open the sort menu:
 
 | Key | Sort by |
 |-----|---------|
-| `m` | Modified time |
-| `M` | Modified time (reverse) |
-| `s` | File size |
-| `S` | File size (reverse) |
-| `n` | Name |
-| `N` | Name (reverse) |
+| `m` | Modified time (newest first) |
+| `M` | Modified time (oldest first) |
+| `s` | File size (largest first) |
+| `S` | File size (smallest first) |
+| `n` | Name (A–Z) |
+| `N` | Name (Z–A) |
 | `e` | Extension |
 
-Your config defaults to **modified time, newest first**, with directories at the top.
+Your config defaults to **modified time, newest first**, directories at top.
 
 ---
 
 ## Preview
 
-Yazi previews are automatic based on file type:
+Yazi automatically previews based on file type:
 
 | File type | Preview |
 |-----------|---------|
-| Text / code | Syntax-highlighted content |
-| Images | Inline image (Kitty protocol) |
-| PDF | First page as image |
-| Video | Thumbnail |
+| Text / code | Syntax-highlighted via `bat` (Catppuccin Mocha theme) |
+| Images | Inline image (Kitty/Ghostty protocol) |
+| PDF | First page rendered as image |
+| Video | Thumbnail via `ffmpegthumbnailer` |
 | Archive (zip/tar) | File list |
 | Directory | File tree |
 
 Scroll the preview pane with `Alt+j` / `Alt+k`.
+
+**Note:** Yazi's preview pane does not support horizontal scrolling.
+For wide files, press `Enter` to open in Helix where you can scroll freely.
 
 ---
 
@@ -169,10 +178,10 @@ Scroll the preview pane with `Alt+j` / `Alt+k`.
 
 | Key | Action |
 |-----|--------|
-| `c` then `c` | Copy file path |
-| `c` then `d` | Copy directory path |
-| `c` then `f` | Copy filename |
-| `c` then `n` | Copy filename without extension |
+| `c` → `c` | Copy full file path |
+| `c` → `d` | Copy directory path |
+| `c` → `f` | Copy filename |
+| `c` → `n` | Copy filename without extension |
 
 ---
 
@@ -180,9 +189,9 @@ Scroll the preview pane with `Alt+j` / `Alt+k`.
 
 | Key | Action |
 |-----|--------|
-| `!` | Run shell command (blocking) |
-| `$` | Run shell command (non-blocking) |
-| `` ` `` | Open interactive shell in current directory |
+| `!` | Run a blocking shell command in current directory |
+| `$` | Run a non-blocking shell command |
+| `` ` `` | Open an interactive shell in current directory |
 
 **Example:** Press `!` then type `chmod +x script.sh` to make a file executable without leaving Yazi.
 
@@ -192,20 +201,31 @@ Scroll the preview pane with `Alt+j` / `Alt+k`.
 
 | Key | Action |
 |-----|--------|
-| `m` + any key | Set bookmark |
-| `'` + same key | Jump to bookmark |
+| `m` + any key | Set bookmark at current directory |
+| `'` + same key | Jump back to that bookmark |
 
-**Example:** Press `m` then `p` to bookmark the current directory as `p`. Later press `'p` to jump back instantly.
+**Example:** Navigate to `~/projects/myrepo`, press `m` then `p`.
+Later, press `'p` from anywhere to jump back instantly.
+
+---
+
+## JSON Files
+
+Yazi previews JSON with syntax highlighting. For interactive browsing:
+
+- Press `Enter` to open in Helix
+- Or from the terminal: `jl file.json` (jless — fold/unfold nodes, search, navigate)
+- Or: `jcat file.json` (jq + bat — formatted and highlighted output)
 
 ---
 
 ## Quick Tips
 
-- **Bulk rename:** Select multiple files with `Space`, press `R` — opens your `$EDITOR` with all filenames. Edit and save to rename.
-- **Drag to terminal:** Select files, press `y` — paste the paths anywhere with middle-click.
-- **Hidden files:** Your config has `show_hidden = true` by default, so dotfiles are always visible.
-- **Image quality:** Set to `80` in your config — good balance of speed and quality.
-- **Exit and cd:** Always use `y` (the shell function) instead of `yazi` so your working directory follows you.
+- **Hidden files** are always visible (your config has `show_hidden = true`).
+- **Exit and cd:** Always use `y` instead of `yazi` so your shell follows your navigation.
+- **Image quality** is set to `80` — good balance of speed and sharpness.
+- **Drag paths:** Select files, press `y`, then paste paths anywhere with middle-click.
+- **Open directory in Helix:** Press `` ` `` to drop into a shell, then `hx .` to open the project.
 
 ---
 
@@ -213,6 +233,7 @@ Scroll the preview pane with `Alt+j` / `Alt+k`.
 
 | File | Purpose |
 |------|---------|
-| `~/.config/yazi/yazi.toml` | Layout, sorting, preview settings |
+| `~/.config/yazi/yazi.toml` | Layout, sorting, preview, opener settings |
 | `~/.config/yazi/keymap.toml` | Custom keybindings |
-| `~/.config/yazi/theme.toml` | Colors and icons |
+| `~/.config/yazi/theme.toml` | UI colors (Catppuccin Mocha flavor) |
+| `~/.config/yazi/flavors/` | Installed theme flavors |
