@@ -1,4 +1,0 @@
-[[manager.prepend_keymap]]
-on = "e"
-run = "shell 'nvim \"$@\"' --block"
-desc = "Open in Neovim"
