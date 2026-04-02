@@ -70,7 +70,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -130,7 +130,8 @@ function y() {
     rm -f -- "$tmp"
 }
 
-export ANTHROPIC_API_KEY="REDACTED"
+# 敏感环境变量从本地文件加载（不上传 git）
+[ -f ~/.env.local ] && source ~/.env.local
 
 # ── Dev environment (added by setup) ──
 eval "$(zoxide init zsh)"
@@ -142,3 +143,9 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git"'
 # Dotfiles sync aliases
 alias dotpush='cd ~/dotfiles && git add -A && git commit -m "update $(date +%Y-%m-%d)" && git push'
 alias dotpull='cd ~/dotfiles && git pull'
+
+# 后台刷新天气（starship prompt 用）
+function _refresh_weather() {
+    ~/.config/starship/weather.sh &>/dev/null &!
+}
+add-zsh-hook precmd _refresh_weather

@@ -1,0 +1,22 @@
+# 敏感信息
+.env
+.env.local
+.env.*
+*secret*
+*credentials*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# 编辑器
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 系统缓存
+__pycache__/
+*.pyc
+.cache/

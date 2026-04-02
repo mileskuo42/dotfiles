@@ -1,0 +1,37 @@
+format = "$directory${custom.weather}$time$git_branch$git_status$python$line_break$character"
+
+[directory]
+truncation_length = 1
+truncate_to_repo = false
+format = "[ $path ](bg:#281C59 fg:#EDF7BD bold)"
+
+[custom.weather]
+command = "cat /tmp/.starship_weather 2>/dev/null"
+when = "test -s /tmp/.starship_weather"
+format = "[ $output ](bg:#4E8D9C fg:#EDF7BD)"
+
+[time]
+disabled = false
+format = "[ $time ](bg:#85C79A fg:#281C59)"
+time_format = "%H:%M"
+
+[git_branch]
+format = "[ $branch ](bg:#C8865A fg:#281C59 bold)"
+
+[git_status]
+format = "[$conflicted$modified$untracked$ahead_behind](bg:#C8865A fg:#281C59 bold) "
+conflicted = "✖"
+modified = "!"
+untracked = "?"
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
+staged = "+"
+deleted = "✘"
+
+[python]
+format = "[ 🐍 $version ](bg:#EDF7BD fg:#281C59)"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
