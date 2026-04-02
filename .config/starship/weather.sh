@@ -13,5 +13,6 @@ fi
 
 if [ "$age" -ge "$CACHE_TTL" ]; then
     weather=$(curl -s --connect-timeout 3 "wttr.in/?format=%c+%t&m" 2>/dev/null | tr -d '\n')
-    [ -n "$weather" ] && echo "$weather" > "$CACHE_FILE"
+    city=$(curl -s --max-time 3 "ipinfo.io/city" 2>/dev/null)
+    [ -n "$weather" ] && echo -n "$weather ${city:-?}" > "$CACHE_FILE"
 fi
