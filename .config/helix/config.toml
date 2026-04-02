@@ -1,0 +1,37 @@
+theme = "catppuccin_mocha"
+
+[editor]
+mouse = true
+line-number = "relative"
+cursorline = true
+auto-completion = true
+auto-pairs = true
+completion-timeout = 50
+idle-timeout = 100
+rulers = []
+bufferline = "multiple"   # 顶部显示 buffer 标签（多文件时）
+color-modes = true        # 模式颜色区分
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.statusline]
+left   = ["mode", "spinner", "file-name", "file-modification-indicator"]
+center = []
+right  = ["diagnostics", "selections", "position", "file-encoding", "file-type"]
+
+[editor.file-picker]
+hidden = false   # 显示隐藏文件
+
+[editor.indent-guides]
+render = true
+character = "╎"
+
+[editor.lsp]
+display-messages = true
+display-inlay-hints = true
+
+[keys.normal]
+"C-s" = ":w"   # Ctrl+S 保存
