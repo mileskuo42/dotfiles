@@ -19,7 +19,6 @@ quit-after-last-window-closed = true
 quick-terminal-position = top
 quick-terminal-screen = main
 quick-terminal-animation-duration = 0.2
-quick-terminal-size = 60
 keybind = global:ctrl+backslash=toggle_quick_terminal
 
 keybind = cmd+d=new_split:right
