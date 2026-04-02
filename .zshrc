@@ -119,6 +119,7 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 export PATH="$HOME/.local/bin:$PATH"
+export EDITOR="hx"
 
 # ── Yazi: terminal file manager (exit and cd to selected dir) ──
 function y() {

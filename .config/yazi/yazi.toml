@@ -4,6 +4,9 @@ show_hidden = true
 sort_by = "modified"
 sort_dir_first = true
 
+[opener]
+edit = [{ run = 'hx "$@"', block = true }]
+
 [preview]
 image_quality = 80
 max_width = 1200
