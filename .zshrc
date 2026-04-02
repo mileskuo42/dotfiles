@@ -133,6 +133,17 @@ function y() {
 # 敏感环境变量从本地文件加载（不上传 git）
 [ -f ~/.env.local ] && source ~/.env.local
 
+# ── Pager: bat 提供语法高亮，less 支持横向滚动 ──
+export LESS="-R -S -F -X"
+export LESSOPEN="| bat --color=always --style=numbers,changes --theme='Catppuccin Mocha' %s"
+export PAGER="less"
+export MANPAGER="sh -c 'col -bx | bat -l man --style=plain --theme=Catppuccin\ Mocha'"
+alias less="less -R -S"
+
+# JSON: jless 交互式浏览，jq 格式化输出
+alias jl="jless"
+function jcat() { jq '.' "$@" | bat -l json --style=numbers --theme='Catppuccin Mocha'; }
+
 # ── Dev environment (added by setup) ──
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
