@@ -1,4 +1,4 @@
-format = "$directory${custom.weather}$time$git_branch$git_status$python$line_break$character"
+format = "$directory${custom.weather}$time$git_branch$git_status${custom.pyenv}$line_break$character"
 
 [directory]
 truncation_length = 1
@@ -29,8 +29,11 @@ diverged = "⇕"
 staged = "+"
 deleted = "✘"
 
-[python]
-format = "[ 🐍 $version ](bg:#EDF7BD fg:#281C59)"
+[custom.pyenv]
+command = 'if [ -n "$CONDA_DEFAULT_ENV" ]; then echo "$CONDA_DEFAULT_ENV"; else basename "$VIRTUAL_ENV"; fi'
+when = '[[ -n "$CONDA_DEFAULT_ENV" || -n "$VIRTUAL_ENV" ]]'
+format = "[ $output](bg:#EDF7BD fg:#281C59)"
+shell = ["bash", "--noprofile", "--norc"]
 
 [character]
 success_symbol = "[❯](bold green)"
