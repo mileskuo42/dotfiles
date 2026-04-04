@@ -1,9 +1,12 @@
-format = "${custom.weather}${custom.pyenv}${custom.sep_to_dir}${custom.git}$directory$line_break$character"
+format = "${custom.weather}${custom.pyenv}${custom.sep_pyenv_git}$git_branch${custom.sep_git_dir}${custom.sep_to_dir}$directory$line_break$character"
 
 [directory]
 truncation_length = 0
 truncate_to_repo = false
 format = "[ $path ](bg:#546B41 fg:#281C59 bold)[](fg:#546B41)"
+
+[git_branch]
+format = "[ $branch ](bg:#C8865A fg:#EDF7BD bold)"
 
 [custom.weather]
 command = "cat /tmp/.starship_weather 2>/dev/null"
@@ -17,40 +20,23 @@ when = '[ -n "$CONDA_DEFAULT_ENV" ] || [ -n "$VIRTUAL_ENV" ]'
 format = "[ $output ](bg:#EDF7BD fg:#281C59 bold)"
 shell = ["bash", "--noprofile", "--norc"]
 
-# Shows ONLY when not in a git repo — bridges pyenv → directory
+[custom.sep_pyenv_git]
+command = "echo -n"
+when = "git rev-parse --git-dir 2>/dev/null"
+format = "[](fg:#EDF7BD bg:#C8865A)"
+shell = ["bash", "--noprofile", "--norc"]
+
+[custom.sep_git_dir]
+command = "echo -n"
+when = "git rev-parse --git-dir 2>/dev/null"
+format = "[](fg:#C8865A bg:#546B41)"
+shell = ["bash", "--noprofile", "--norc"]
+
 [custom.sep_to_dir]
 command = "echo -n"
-when = "! git rev-parse --is-inside-work-tree 2>/dev/null"
+when = "! git rev-parse --git-dir > /dev/null 2>&1"
 format = "[](fg:#EDF7BD bg:#546B41)"
 shell = ["bash", "--noprofile", "--norc"]
-
-[custom.git]
-command = """
-branch=$(git branch --show-current 2>/dev/null)
-[ -z "$branch" ] && exit 1
-status=""
-git diff --quiet 2>/dev/null || status="${status}!"
-git diff --cached --quiet 2>/dev/null || status="${status}+"
-[ -n "$(git ls-files --others --exclude-standard 2>/dev/null)" ] && status="${status}?"
-ahead=$(git rev-list @{u}..HEAD 2>/dev/null | wc -l | tr -d ' ')
-behind=$(git rev-list HEAD..@{u} 2>/dev/null | wc -l | tr -d ' ')
-[ "$ahead" -gt 0 ] 2>/dev/null && status="${status}⇡"
-[ "$behind" -gt 0 ] 2>/dev/null && status="${status}⇣"
-if [ -n "$status" ]; then
-    echo "$branch $status"
-else
-    echo "$branch"
-fi
-"""
-when = "git rev-parse --is-inside-work-tree 2>/dev/null"
-format = "[](fg:#EDF7BD bg:#C8865A)[ $output ](bg:#C8865A fg:#EDF7BD bold)[](fg:#C8865A bg:#546B41)"
-shell = ["bash", "--noprofile", "--norc"]
-
-[git_branch]
-disabled = true
-
-[git_status]
-disabled = true
 
 [character]
 success_symbol = "[❯](bold green)"
