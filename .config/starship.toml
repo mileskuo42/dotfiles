@@ -3,39 +3,39 @@ format = "${custom.weather}${custom.pyenv}${custom.sep_pyenv_git}$git_branch${cu
 [directory]
 truncation_length = 0
 truncate_to_repo = false
-format = "[ $path ](bg:#546B41 fg:#281C59 bold)[](fg:#546B41)"
+format = "[ $path ](bg:#85C79A fg:#281C59 bold)[](fg:#85C79A)"
 
 [git_branch]
-format = "[ $branch ](bg:#C8865A fg:#EDF7BD bold)"
+format = "[ $branch ](bg:#F38181 fg:#FFF8F0 bold)"
 
 [custom.weather]
 command = "cat /tmp/.starship_weather 2>/dev/null"
 when = "test -s /tmp/.starship_weather"
-format = "[ $output ](bg:#4E8D9C fg:#EDF7BD bold)[](fg:#4E8D9C bg:#EDF7BD)"
+format = "[ $output ](bg:#4E8D9C fg:#FFF8F0 bold)"
 shell = ["bash", "--noprofile", "--norc"]
 
 [custom.pyenv]
 command = 'if [ -n "$CONDA_DEFAULT_ENV" ]; then echo "$CONDA_DEFAULT_ENV"; else basename "$VIRTUAL_ENV"; fi'
 when = '[ -n "$CONDA_DEFAULT_ENV" ] || [ -n "$VIRTUAL_ENV" ]'
-format = "[ $output ](bg:#EDF7BD fg:#281C59 bold)"
+format = "[ $output ](bg:#FCE38A fg:#281C59 bold)"
 shell = ["bash", "--noprofile", "--norc"]
 
 [custom.sep_pyenv_git]
 command = "echo -n"
 when = "git rev-parse --git-dir 2>/dev/null"
-format = "[](fg:#EDF7BD bg:#C8865A)"
+format = ""
 shell = ["bash", "--noprofile", "--norc"]
 
 [custom.sep_git_dir]
 command = "echo -n"
 when = "git rev-parse --git-dir 2>/dev/null"
-format = "[](fg:#C8865A bg:#546B41)"
+format = ""
 shell = ["bash", "--noprofile", "--norc"]
 
 [custom.sep_to_dir]
 command = "echo -n"
 when = "! git rev-parse --git-dir > /dev/null 2>&1"
-format = "[](fg:#EDF7BD bg:#546B41)"
+format = ""
 shell = ["bash", "--noprofile", "--norc"]
 
 [character]
