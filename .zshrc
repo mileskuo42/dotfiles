@@ -161,3 +161,10 @@ function _refresh_weather() {
     ~/.config/starship/weather.sh &>/dev/null &!
 }
 add-zsh-hook precmd _refresh_weather
+
+# 每次回到提示符时重置鼠标上报（防止 vim/fzf 等退出后触控板乱码）
+autoload -Uz add-zsh-hook
+_reset_mouse_reporting() {
+    printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?1015l'
+}
+add-zsh-hook precmd _reset_mouse_reporting
